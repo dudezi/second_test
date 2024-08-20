@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Article {
     private int id;
     private String subject;
@@ -19,5 +21,13 @@ public class Article {
 
     String getContent() {
         return this.content;
+    }
+
+    public void setSubject (String subject) {
+        this.subject = subject;
+    }
+
+    public void setContent (String content) {
+        this.content = content;
     }
 }
