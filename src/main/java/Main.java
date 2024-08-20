@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +14,10 @@ public class Main {
             if (command.equals("종료")) {
                 break;
             } else if (command.equals("등록")) {
-                
+                System.out.print("제목 : ");
+                String subject = sc.nextLine();
+                System.out.print("내용 : ");
+                String content = sc.nextLine();
             }
         }
     }
