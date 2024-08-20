@@ -52,13 +52,34 @@ public class App {
 
                 int idx = Integer.parseInt(value);
 
+                Article article = null;
                 for (int i = 0; i < articleList.size(); i++){
-
                     if(articleList.get(i).getId() == idx) {
-                        articleList.remove(i);
+                        article = articleList.remove(i);
                     }
                 }
-                System.out.printf("%d번 게시물이 삭제되었습니다.\n", idx);
+                if (article == null) {
+                    System.out.printf("%d번 게시물이 존재하지 않습니다.\n", idx);
+                } else {
+                    System.out.printf("%d번 게시물이 삭제되었습니다.\n", idx);
+                }
+            } else if (command.startsWith("수정")) {
+                String[] commandList= command.split("\\?", 2);
+
+                String actionCode = commandList[0];
+                String[] paramsStr =  commandList[1].split("=",2);
+
+                String key = paramsStr[0];
+                String value = paramsStr[1];
+
+                int idx = Integer.parseInt(value);
+
+                Article article = null;
+                for (int i = 0; i < articleList.size(); i++){
+                    if(articleList.get(i).getId() == idx) {
+                        article = articleList.get(i);
+                    }
+                }
             }
         }
     }
