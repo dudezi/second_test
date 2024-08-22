@@ -1,8 +1,8 @@
 package org.example.article;
 
 import org.example.Container;
+import org.example.Request;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,43 +32,36 @@ public class ArticleController {
         }
 
     }
-    public void delete (String command) {
-        String[] commandList = command.split("\\?", 2);
+    public void delete (Request request) {
+        int id = _getIntParam(request.getParams("id"));
 
-        String actionCode = commandList[0];
+        if(id == -1) {
+            System.out.println("잘못된 입력입니다.");
+            return;
+        }
 
-        String[] paramsStr = commandList[1].split("=", 2);
-
-        String key = paramsStr[0];
-        String value = paramsStr[1];
-        int idx = Integer.parseInt(value);
-
-        Article article = _getFindById(idx);
+        Article article = _getFindById(id);
 
         if (article == null) {
-            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", idx);
+            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
         } else {
             articleList.remove(article);
-            System.out.printf("%d번 게시물이 삭제되었습니다.\n", idx);
+            System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
         }
     }
-    public void modify (String command) {
-        String[] commandList = command.split("\\?", 2);
+    public void modify (Request request) {
+        int id = _getIntParam(request.getParams("id"));
 
-        String actionCode = commandList[0];
+        if(id == -1) {
+            System.out.println("잘못된 입력입니다.");
+            return;
+        }
 
-        String[] paramsStr = commandList[1].split("=", 2);
-
-        String key = paramsStr[0];
-        String value = paramsStr[1];
-        int idx = Integer.parseInt(value);
-
-        Article article = _getFindById(idx);
+        Article article = _getFindById(id);
 
         if (article == null) {
-            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", idx);
+            System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
         } else {
-
             System.out.printf("제목(기존) : %s\n", article.getSubject());
             System.out.print("제목 : ");
             String modifySubject = Container.getSc().nextLine();
@@ -79,7 +72,7 @@ public class ArticleController {
             String modifyContent = Container.getSc().nextLine();
             article.setContent(modifyContent);
 
-            System.out.printf("%d번 게시물이 수정되었습니다.\n", idx);
+            System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
         }
     }
 
@@ -92,5 +85,14 @@ public class ArticleController {
         }
 
         return null;
+    }
+    private int _getIntParam(String id) {
+        int defaultValue = -1;
+
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException e){
+            return defaultValue;
+        }
     }
 }
