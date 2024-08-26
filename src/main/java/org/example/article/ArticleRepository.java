@@ -28,7 +28,8 @@ public class ArticleRepository {
         return articleList;
     }
 
-    public Article getFindById(int id) {
+    public Article findById(int id) {
+        List<Article> articleList = this.findAll();
         for (Article item : articleList) {
             if (item.getId() == id) {
                 return item;
@@ -39,7 +40,8 @@ public class ArticleRepository {
     }
 
     public void remove(Article article) {
-        articleList.remove(article);
+        String sql = String.format("DELETE FROM article where id = %d", article.getId());
+        Container.getDBConnection().delete(sql);
     }
 
     public void modify(Article article, String modifySubject, String modifyContent) {
