@@ -1,26 +1,38 @@
 package org.example;
 
 import org.example.article.ArticleController;
+import org.example.db.DBConnection;
 import org.example.system.SystemController;
+
+import java.util.List;
+import java.util.Map;
 
 public class App {
     ArticleController articleController;
     SystemController systemController;
 
 
-    App () {
+    App() {
+        DBConnection.DB_NAME ="proj1";
+        DBConnection.DB_PORT =3306;
+        DBConnection.DB_USER ="root";
+        DBConnection.DB_PASSWORD = "";
+        // DB 연결
+        Container.getDBConnection().connect();
+
         articleController = new ArticleController();
         systemController = new SystemController();
     }
 
-    public void run () {
+    public void run() {
         System.out.println("== 게시판 앱 ==");
         while (true) {
             System.out.print("명령) ");
             String command = Container.getSc().nextLine().trim();
-
+            // 커맨드에 입력한 내용을 actionCode, idx로 분류해서 필드로 저장
             Request request = new Request(command);
-            if (command.equals("종료")) {
+
+            if (request.getActionCode().equals("종료")) {
                 systemController.exit();
                 break;
             } else if (request.getActionCode().equals("등록")) {
